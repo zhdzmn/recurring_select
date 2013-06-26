@@ -11,14 +11,14 @@ module RecurringSelectHelper
     def recurring_options_for_select(currently_selected_rule = nil, default_schedules = nil, options = {})
 
       options_array = []
-      blank_option_label = options[:blank_label] || "- not recurring -"
-      blank_option = [blank_option_label, "null"]
+      blank_option_label = options[:blank_label] || "- no schedule -"
+      blank_option = [blank_option_label, nil]
       seperator = ["or", {:disabled => true}]
 
       if default_schedules.blank?
         if currently_selected_rule
           options_array << blank_option if options[:allow_blank]
-          options_array << ice_cube_rule_to_option(currently_selected_rule)
+          options_array << ice_cube_rule_to_option(currently_selected_rule) if ice_cube_rule_to_option(currently_selected_rule)
           options_array << seperator
           options_array << ["Change schedule...", "custom"]
         else
@@ -49,7 +49,7 @@ module RecurringSelectHelper
     private
 
     def ice_cube_rule_to_option(supplied_rule, custom = false)
-      return supplied_rule unless RecurringSelect.is_valid_rule?(supplied_rule)
+      return nil unless RecurringSelect.is_valid_rule?(supplied_rule)
 
       rule = RecurringSelect.dirty_hash_to_rule(supplied_rule)
       ar = [rule.to_s, rule.to_hash.to_json]
