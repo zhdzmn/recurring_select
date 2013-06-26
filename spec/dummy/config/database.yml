@@ -1,11 +1,13 @@
 development:
   adapter: postgresql
   database: recurring_select_development
-  username:
-  password:
+  username: postgres
+  password: postgres
+  host: 127.0.0.1
 
 test:
   adapter: postgresql
   database: recurring_select_test
-  username:
-  password:
+  username: postgres
+  password: postgres
+  host: 127.0.0.1
